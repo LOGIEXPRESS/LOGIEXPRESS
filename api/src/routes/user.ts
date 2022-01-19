@@ -27,7 +27,6 @@ router.post('/verifytoken', async (req: Request, res: Response, next: NextFuncti
     try {
         const decoded = jwt.verify(token, config.jwtSecret)
         const dataUser = await User_Reg.findByPk(decoded.id)
-
         const payload = {
             id: dataUser?.id,
             name: dataUser?.name,
