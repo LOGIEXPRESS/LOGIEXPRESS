@@ -27,6 +27,7 @@ const SingIn = ({ navigation }) => {
   }
 
   const nuevotoken = useSelector((store) => store.token);
+
   useEffect(() => {
     console.log("verificando, que se envia", nuevotoken);
     save("token", nuevotoken);
