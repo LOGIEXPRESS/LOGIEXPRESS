@@ -16,19 +16,19 @@ import Icon from "react-native-vector-icons/Ionicons";
 //Hook para la navegacion
 import { useNavigation } from "@react-navigation/core";
 import ModalContraseña from "./ModalContraseña";
-import HeaderBar from '../Utils/HeaderBar.js';
-import ModalSuccess from './ModalSuccess';
+import HeaderBar from "../Utils/HeaderBar.js";
+import ModalSuccess from "./ModalSuccess";
 
 const CambiarContraseña = () => {
   const data = useSelector((store) => store.responseLog);
-  const editPassword = useSelector((store) => store. editPassword);
+  const editPassword = useSelector((store) => store.editPassword);
 
   useEffect(() => {
     //console.log("cambio de pass",  editPassword);
-    if(editPassword?.menssage) {
-      changeModalVisible2(true)
+    if (editPassword?.menssage) {
+      changeModalVisible2(true);
     }
-  }, [data,  editPassword]);
+  }, [data, editPassword]);
 
   /// --> ESTADO PARA EL INPUT <-- ///
   const [contraseña, setContraseña] = useState("");
@@ -58,11 +58,10 @@ const CambiarContraseña = () => {
   };
   return (
     <View style={styles.container}>
-    
       {/* <BOTON DE VOLVER ATRÁS */}
-      <View style={{ marginTop :35}}>
+      <View style={{ marginTop: 35 }}>
         {/* <Image source={require("../Utils/salida.png")} /> */}
-        <HeaderBar/>
+        <HeaderBar />
       </View>
       <View style={styles.containerImg}>
         <Image
@@ -102,14 +101,15 @@ const CambiarContraseña = () => {
           />
         </Modal>
         <Modal
-         transparent={true}
-         animationType="fade"
-         visible={isModalVisible2}
-         nRequestClose={() => changeModalVisible2(false)}
+          transparent={true}
+          animationType="fade"
+          visible={isModalVisible2}
+          nRequestClose={() => changeModalVisible2(false)}
         >
-        <ModalSuccess
-          changeModalVisible2={changeModalVisible2}
-          setData2={setData2} />
+          <ModalSuccess
+            changeModalVisible2={changeModalVisible2}
+            setData2={setData2}
+          />
         </Modal>
       </TouchableOpacity>
     </View>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   textPlaceholder: {
     fontSize: 17,
     marginTop: 12,
-    textAlign: 'center'
+    textAlign: "center",
   },
   containerImg: {
     alignContent: "center",
