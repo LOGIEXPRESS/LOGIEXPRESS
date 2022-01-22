@@ -2,6 +2,8 @@ import { Response, Request, Router, NextFunction } from 'express';
 import { uuid } from 'uuidv4';
 import passport from 'passport';
 import { User_Reg } from '../models/User_Reg';
+import { User } from '../models/User';
+import { Carrier } from '../models/Carrier';
 import jwt from 'jsonwebtoken'
 import config from "../../config/config"
 const bcrypt = require("bcryptjs");
@@ -25,21 +27,30 @@ router.get('/user', passport.authenticate("jwt", { session: false }), async (req
 router.post('/verifytoken', async (req: Request, res: Response, next: NextFunction) => {
     const { token } = req.body;
     try {
-        const decoded = jwt.verify(token, config.jwtSecret)
+        const decoded: any = jwt.verify(token, config.jwtSecret)
         const dataUser = await User_Reg.findByPk(decoded.id)
-        const payload = {
-            id: dataUser?.id,
-            name: dataUser?.name,
-            lastname: dataUser?.lastName,
-            phone: dataUser?.phone,
-            eMail: dataUser?.eMail,
-            role: dataUser?.role,
-            mensaje: true
+        if (dataUser) {
+
+            const objUser = await User.findOne({ where: { idUserReg: dataUser.id } })
+            const objCarrier = await Carrier.findOne({ where: { idUserReg: dataUser.id } })
+
+            const payload = {
+                id: dataUser?.id,
+                name: dataUser?.name,
+                lastname: dataUser?.lastName,
+                phone: dataUser?.phone,
+                eMail: dataUser?.eMail,
+                role: dataUser?.role,
+                photo: objUser ? objUser!.photo : objCarrier!.photo,
+                location: objUser ? objUser!.zone : objCarrier!.location,
+                idRole: objUser ? objUser!.id : objCarrier!.id,
+                mensaje: true
+            }
+
+            console.log("PAYLOAD en verifytoken", payload);
+
+            return res.json({ payload, mensaje: 'the access token is valid' })
         }
-
-        console.log("PAYLOAD en verifytoken", payload);
-
-        return res.json({ payload, mensaje: 'the access token is valid' })
     }
     catch (err) {
         next(err)
@@ -49,7 +60,7 @@ router.post('/verifytoken', async (req: Request, res: Response, next: NextFuncti
 
 router.post('/user', async (req: Request, res: Response, next: NextFunction) => {
     // const data1 = JSON.parse(req.body)
-    console.log("Estes es el body", req.body);
+    // console.log("Estes es el body", req.body);
 
     const { name, lastName, phone, password, eMail, terminosCondiciones, role } = req.body
 

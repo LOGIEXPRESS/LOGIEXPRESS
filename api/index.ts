@@ -58,11 +58,10 @@ const resApiUsers = async () => {
 
 sequelize
 	.sync({ force: false, logging: false })
-
-	.then(async () => {
-		await resApiUsers()
-
-	})
+	// .then(async () => {
+	// 	// await resApiUsers()
+		
+	// })
 	.then(() => {
 		console.log('base de datos conectada! :D')
 		app.listen(3001, function () {

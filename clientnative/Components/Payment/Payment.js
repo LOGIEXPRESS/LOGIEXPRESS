@@ -13,19 +13,22 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
+import config from "../../config/config";
 
 const Payment = () => {
   const info = useSelector((store) => store.responseLog);
+  const token = useSelector((store) => store.token);
 
   const [name, setName] = useState(info.eMail);
+  const [tokenn, setToken] = useState(token);
   const stripe = useStripe();
 
   useEffect(() => {
-    console.log("llega bien el mail?", info.eMail);
-    subscribe();
+    console.log("llega bien el mail?", info.eMail, tokenn);
+    subscribe(tokenn);
   }, []);
 
-  const subscribe = async () => {
+  const subscribe = async (tokenn) => {
     try {
       // sending request
       // const response = await fetch("http://192.168.0.10:3001/pay", {
@@ -36,8 +39,9 @@ const Payment = () => {
       //   },
       // });
 
-      const response = await axios.post(`http://192.168.0.111:3001/api/pay`, {
+      const response = await axios.post(`http://${config.ip}:3001/api/pay`, {
         name,
+        tokenn,
       });
       //.then(res=>res.data)
 

@@ -1,4 +1,3 @@
-
 import { Response, Request, Router, NextFunction } from 'express';
 
 import Stripe from 'stripe';
@@ -38,8 +37,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_51KHp41KDcJ8
 router.post("/pay", async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    const { name, token } = req.body;
-    let decoded = jwt.verify(token, config.jwtSecret)
+    const { name, tokenn } = req.body;
+    console.log('aca llega el token', 'token', tokenn);
+    let decoded = jwt.verify(tokenn, config.jwtSecret)
 
     let user = await User.findAll({ where: { idUserReg: decoded.id } })
 

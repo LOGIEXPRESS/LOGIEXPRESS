@@ -7,21 +7,23 @@ import TravelRoutes from './travel';
 import UploadDataFake from './uploadDataFake';
 import changePassword from './changePassword'
 import history from './historyTravel'
+import vehicle from './vehicle'
 
 import payments from './payments'
 
 const router = Router();
 
+// router.use('/', dataFake)
 router.use('/', userRoutes);
 router.use('/', LoginRoutes);
 router.use('/', ProfileRoutes);
 router.use('/', TravelRoutes);
 router.use('/', UploadDataFake);
-router.use('/', review)
 router.use('/', payments);
 router.use('/', review);
 router.use('/', changePassword)
 router.use('/', history)
+router.use('/', vehicle)
 //router.use('/', UploadDataFake) 
 
 
