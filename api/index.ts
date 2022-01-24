@@ -77,17 +77,6 @@ io.on("connection", (socket: any) => {
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
 ////end sokets
 
 sequelize
