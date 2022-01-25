@@ -87,7 +87,7 @@ sequelize
     // })
     .then(() => {
         console.log('base de datos conectada! :D')
-        server.listen(process.env.PORT || 3001, function () {
+        server.listen("postgres://euhhnlvlorbgaz:b9b70900233f499937ea603bc58f8340bd6aa51cf0b0038889526a2a3845ed67@ec2-3-225-41-234.compute-1.amazonaws.com:5432/d3nem1qloocqg" || 3001, function () {
             console.log('App is listening on port 3001!');
         });
     })

@@ -32,5 +32,6 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(status).send(message);
 });
+app.get("/api", (req, res, next) => res.send("OK"));
 app.use('/api', index_1.default);
 exports.default = app;
