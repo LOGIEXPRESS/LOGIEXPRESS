@@ -2,6 +2,12 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
 import config from '../lib/config';
+import { Carrier } from './models/Carrier';
+import { Review } from './models/Review';
+import { Travel } from './models/Travel';
+import { User } from './models/User';
+import { User_Reg } from './models/User_Reg';
+import { Vehicle } from './models/Vehicle';
 const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
 } = process.env;
@@ -39,20 +45,21 @@ new Sequelize({
 	models: [__dirname + '/models'],
 });
 
-// User_Reg.hasOne(User)
-// User.belongsTo(User_Reg)
+User_Reg.hasOne(User)
+User.belongsTo(User_Reg)
 
-// User_Reg.hasOne(Carrier)
-// Carrier.belongsTo(User_Reg)
+User_Reg.hasOne(Carrier)
+Carrier.belongsTo(User_Reg)
 
-// Carrier.hasOne(Vehicle)
-// Vehicle.belongsTo(Carrier)
+Carrier.hasOne(Vehicle)
+Vehicle.belongsTo(Carrier)
 
-// Travel.hasOne(Review)
-// Review.belongsTo(Travel)
+Travel.hasOne(Review)
+Review.belongsTo(Travel)
 
-// User.hasMany(Travel);
-// Travel.belongsTo(User);
+User.hasMany(Travel);
+Travel.belongsTo(User);
 
-// Carrier.hasMany(Travel)
-// Travel.belongsTo(Carrier)
+Carrier.hasMany(Travel)
+Travel.belongsTo(Carrier)
+
