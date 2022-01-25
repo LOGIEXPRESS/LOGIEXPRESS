@@ -8,6 +8,7 @@ import { Travel } from './models/Travel';
 import { User } from './models/User';
 import { User_Reg } from './models/User_Reg';
 import { Vehicle } from './models/Vehicle';
+
 const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
 } = process.env;
