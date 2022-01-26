@@ -22,6 +22,7 @@ new Sequelize({
    port: 5432,
    username: "euhhnlvlorbgaz",
    password: "b9b70900233f499937ea603bc58f8340bd6aa51cf0b0038889526a2a3845ed67",
+   models: [__dirname + '/models'],
    pool: {
 	 max: 3,
 	 min: 1,
@@ -39,9 +40,9 @@ new Sequelize({
  })
 :new Sequelize({
 	dialect: 'postgres',
-	database: config.dbName,
-	password: config.dbPassword,
-	username: config.dbUser,
+	database: process.env.DB_NAME,
+	password: process.env.DB_PASSWORD,
+	username: process.env.DB_USER,
 	storage: ':memory:',
 	models: [__dirname + '/models'],
 });
