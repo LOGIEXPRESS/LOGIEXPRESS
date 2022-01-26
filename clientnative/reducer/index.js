@@ -8,6 +8,7 @@ import {
   REQUEST_PERMISSE,
   DELETE_PERMISSE,
   CONFIRME_REQUEST,
+  REQ_DATA_CARRIER
 } from "../actions/index.js";
 
 const initialState = {

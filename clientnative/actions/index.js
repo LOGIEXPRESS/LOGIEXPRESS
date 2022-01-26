@@ -8,6 +8,7 @@ export const SOCKET = "SOCKET";
 export const REQUEST_PERMISSE = 'REQUEST_PERMISSE';
 export const DELETE_PERMISSE = 'DELETE_PERMISSE';
 export const CONFIRME_REQUEST = 'CONFIRME_REQUEST';
+export const REQ_DATA_CARRIER = 'REQ_DATA_CARRIER';
 import { API_URL } from "@env"
 
 
