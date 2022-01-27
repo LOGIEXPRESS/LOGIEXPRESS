@@ -173,7 +173,7 @@ const CotizarViaje = () => {
               <Text style={{ fontSize: 21, marginLeft: 22, fontWeight: 'bold' }}>$ {price}</Text>
             </View>
             {/* BOTON */}
-            <View style={{ marginTop: 80, marginLeft: 25 }}>
+            <View style={{ marginTop: wp('10%'), marginLeft: wp('4%') }}>
               <TouchableOpacity style={styles.btnEditar} onPress={handleQuote}>
                 <Text style={styles.textBtn}>Cotizar</Text>
               </TouchableOpacity>

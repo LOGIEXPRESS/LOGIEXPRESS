@@ -15,6 +15,11 @@ import { useNavigation } from "@react-navigation/core";
 import { getTravelID, desmount } from "../actions/index";
 import { useSelector, useDispatch } from "react-redux";
 import SimpleModal70 from "./AlertasTravel/SimpleModalcanceltrip";
+// prueba para las screens responsive
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const ScreenWaiting = (payload) => {
 
@@ -185,7 +190,6 @@ const ScreenWaiting = (payload) => {
       style={{
         flex: 1,
         backgroundColor: "#fff",
-        marginTop: 30,
       }}
     >  
       <HeaderBar screen={'ProfileUserScreen'}/>
@@ -205,7 +209,7 @@ const ScreenWaiting = (payload) => {
           </View>
           <View style={{ alignItems: "center", marginTop: 40 }}>
             <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-              ESPERANDO ACEPTACION
+              ESPERANDO ACEPTACIÓN
             </Text>
           </View>
           <View style={(styles.container, styles.horizontal)}>
@@ -261,22 +265,26 @@ const styles = StyleSheet.create({
   },
   btnEditar: {
     backgroundColor: "#FFC107",
-    borderRadius: 10,
-    width: 150,
-    height: 50,
-    marginTop: 20,
+    borderRadius: wp('2%'),
+    width: wp('42%'),
+    height: hp('7%'),
+    marginTop: wp('6%'),
     alignSelf: "center",
-    marginBottom: 20,
-    marginRight: 30,
+    marginRight: wp('3.5%'),
+    marginBottom: wp('10%')
   },
 
   textBtn: {
     color: "white",
-    fontSize: 17,
-    alignSelf: "center",
-    marginTop: 12,
+    fontSize: hp('2.30%'),
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: wp('3%'),
   },
-  btn2: { flexDirection: "row", marginLeft: 30 },
+
+  btn2: {
+     flexDirection: "row" 
+    },
   horizontal: {
     flexDirection: "row",
     justifyContent: "space-around",

@@ -26,6 +26,11 @@ import SimpleModal22 from "./AlertasTravel/SimpleModalweight";
 import SimpleModal23 from "./AlertasTravel/SimpleModalprice";
 import HeaderBar from "./Utils/HeaderBar.js";
 import { APIKEY_GOOGLE } from "@env"
+// prueba para las screens responsive
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+  } from "react-native-responsive-screen";
 
 
 
@@ -65,7 +70,7 @@ const RequestTravel = (props) => {
     /* const response = useSelector((store) => store.responseTravel) */
     const data = props.route.params
 
-    console.log("esto me llega ", data)
+    //console.log("esto me llega ", data)
 
 
     //Estados para las validaciones:
@@ -132,7 +137,7 @@ const RequestTravel = (props) => {
     /* console.log("ESTO ES EL SOCKET", socket) */
     let [response, setResponse] = useState(null);
 
-    console.log('ESTA ES LA RESPUESTAAAAAAA', response)
+  //  console.log('ESTA ES LA RESPUESTAAAAAAA', response)
     /// --> ESTO ES PARA ELIMINAR EL WARNING QUE SALE EN LA PANTALLA <-- ///
     useEffect(() => {
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -154,7 +159,7 @@ const RequestTravel = (props) => {
             } 
     }, [response]);
 
-    console.log("ESTO ES LA RESPUESTA DEL PEDIDO", response)
+   // console.log("ESTO ES LA RESPUESTA DEL PEDIDO", response)
 
 
     const [origen, setOrigen] = useState({
@@ -231,10 +236,10 @@ const RequestTravel = (props) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
             <ScrollView keyboardShouldPersistTaps={'handled'}>
-                <View style={{ alignItems: "center", marginRight: 10 }}>
+                <View style={{ alignItems: "center"}}>
                 <HeaderBar  screen={'null'} />
                     <View style={styles.title}>
-                        <Text style={{ fontWeight: "bold", fontSize: 40, marginBottom: 10, }}>
+                        <Text style={{ fontWeight: "bold", fontSize: hp('3.75%'), marginBottom: wp('1%'), }}>
                             Solicitar Carga
                         </Text>
                         <Image
@@ -244,7 +249,7 @@ const RequestTravel = (props) => {
                     </View>
                     <View style={styles.form}>
                         <View style={styles.containerInputs} >
-                            <Text style={{ fontWeight: "bold", fontSize: 25, marginTop: 0, textAlign: "center" }}>
+                            <Text style={{ fontWeight: "bold", fontSize: hp('3.10%'), textAlign: "center" }}>
                                 Origen
                             </Text>
                             <ScrollView keyboardShouldPersistTaps={'handled'} style={{ flex: 1 }}>
@@ -278,7 +283,7 @@ const RequestTravel = (props) => {
                                     }}
                                 />
                             </ScrollView>
-                            <Text style={{ fontWeight: "bold", fontSize: 25, marginTop: 0, textAlign: "center" }}>
+                            <Text style={{ fontWeight: "bold", fontSize: hp('3.1%'), textAlign: "center" }}>
                                 Destino
                             </Text>
                             <ScrollView keyboardShouldPersistTaps={'handled'} style={{ flex: 1 }}>
@@ -290,7 +295,7 @@ const RequestTravel = (props) => {
                                     }}
                                     onPress={(data, details = null) => {
                                         // 'details' is provided when fetchDetails = true
-                                        console.log(details.geometry.location.lat, details.geometry.location.lng);
+                                       // console.log(details.geometry.location.lat, details.geometry.location.lng);
                                         setDestino({
                                             latitude: details.geometry.location.lat,
                                             longitude: details.geometry.location.lng,
@@ -314,7 +319,7 @@ const RequestTravel = (props) => {
 
                                 />
                             </ScrollView>
-                            <Text style={{ fontWeight: "bold", fontSize: 25, marginTop: 0, textAlign: "center" }}>
+                            <Text style={{ fontWeight: "bold", fontSize: hp('3.1%'), textAlign: "center" }}>
                                 Peso
                             </Text>
                             <View style={styles.viewsInputs}>
@@ -326,16 +331,16 @@ const RequestTravel = (props) => {
                                     onChangeText={(text) => setWeight(text)}
                                 />
                             </View>
-                            <Text style={{ fontWeight: "bold", fontSize: 25, marginTop: 0, textAlign: "center" }}>
+                            <Text style={{fontWeight: "bold", fontSize: hp('3.1%'), textAlign: "center" }}>
                                 Precio
                             </Text>
                             <View style={styles.viewsInputs}>
-                                <Icon name="cash-outline" size={26} />
+                                <Icon name="cash-outline" size={26} style={{color:'black'}} />
                                 <Text
                                     style={styles.textPlaceholder}
                                 >${price.price}</Text>
                             </View>
-                            <Text style={{ fontWeight: "bold", fontSize: 25, marginTop: 0, textAlign: "center" }}>
+                            <Text style={{ fontWeight: "bold", fontSize: hp('3.1%'), textAlign: "center"}}>
                                 Descripción
                             </Text>
                             <View style={styles.viewsInputs}>
@@ -343,7 +348,7 @@ const RequestTravel = (props) => {
                                 <TextInput
                                     style={styles.textPlaceholder}
                                     multiline={true}
-                                    numberOfLines={3}
+                                    //numberOfLines={3}
                                     onChangeText={(text) => setDescription(text)}
                                 />
                             </View>
@@ -412,90 +417,62 @@ const RequestTravel = (props) => {
 const styles = StyleSheet.create({
 
     title: {
-        marginTop: 2,
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        padding: 8,
     },
-    iconBar: {
-        flexDirection: "row",
-        marginTop: 30,
-        marginBottom: 10,
-        marginHorizontal: 10,
-        justifyContent: "space-between",
-        backgroundColor: "white",
-    },
-
+   
     containerInputs: {
         flex: 1,
         textAlign: "center",
 
     },
-
-    imgPerfil: {
-        width: 170,
-        height: 170,
-        borderRadius: 100,
-        borderColor: "#FFC107",
-        borderWidth: 5,
-        marginTop: 40,
-    },
-    imgAdd: {
-        width: 50,
-        height: 50,
-        marginLeft: 135,
-        marginTop: -70,
-        borderWidth: 3,
-        borderColor: "#511281",
-        borderRadius: 50,
-    },
     form: {
         borderColor: '#000',
-        width: 400,
-        borderWidth: 2,
-        padding: 10,
+        width: wp('96%'),
+        padding: wp('2%'),
     },
     viewsInputs: {
-        marginTop: 2,
+        marginTop: wp('0.2%'),
         borderColor: "#000",
-        borderWidth: 1,
-        borderBottomWidth: 1,
+        borderBottomWidth: wp('0.3'),
         flexDirection: "row",
         justifyContent: "flex-start",
-        width: 380,
+        width: wp('90%'),
         alignItems: "flex-start",
-        marginBottom: 15,
-        padding: 8,
+        marginBottom: wp('3%'),
+        padding: wp('2%'),
     },
     textPlaceholder: {
-        marginLeft: 20,
-        fontSize: 17,
-        marginBottom: 2,
+        marginLeft: wp('3%'),
+        fontSize: hp('2.1%'),
+        marginBottom: wp('0.1'),
     },
     btnEditar: {
         backgroundColor: "#FFC107",
-        borderRadius: 10,
-        width: 150,
-        height: 50,
-        marginTop: 20,
+        borderRadius: wp('2%'),
+        width: wp('42%'),
+        height: hp('7%'),
+        marginTop: wp('6%'),
         alignSelf: "center",
-        marginBottom: 20,
-        marginRight: 30,
+        marginRight: wp('3%'),      
     },
-
     textBtn: {
         color: "white",
-        fontSize: 17,
+        fontSize: hp('2.5%'),
         alignSelf: "center",
-        marginTop: 12,
+        marginTop: wp('3%'),
+        fontWeight: 'bold'
     },
     gif: {
-        width: 50,
-        height: 50,
-        marginBottom: 5,
+        width: wp('10%'),
+        height: hp('6%'),
+        padding: wp('3%'),
+        marginLeft: wp('2%')
     },
-    btn2: { flexDirection: "row", marginLeft: 30 }
+    btn2: { 
+     flexDirection: "row",
+    justifyContent: 'center' }
 });
 
 export default RequestTravel;

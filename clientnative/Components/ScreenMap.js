@@ -20,6 +20,11 @@ import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/core";
 import StarRating from "./StarRating.js";
 import HeaderBar from "./Utils/HeaderBar.js";
+// prueba para las screens responsive
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGTH = 380;
@@ -115,11 +120,11 @@ const ScreenMap = () => {
     _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
   };
 
-  console.log("ESTO ES EL PIN DE LA UBI", pin);
+  //console.log("ESTO ES EL PIN DE LA UBI", pin);
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
 
-  console.log("ESTO SON LOS TRAVELS", travels[0]);
+//  console.log("ESTO SON LOS TRAVELS", travels[0]);
 
 
 
@@ -209,7 +214,7 @@ const ScreenMap = () => {
           )}
         >
           {travels?.map((resp, index) => {
-            console.log("ESTA ES LA RESP",resp)
+           // console.log("ESTA ES LA RESP",resp)
             const orig = resp.travel.orig.split("/");
             const dest = resp.travel.destination.split("/");
             return (
@@ -277,19 +282,19 @@ const styles = StyleSheet.create({
   },
   btnEditar: {
     backgroundColor: "#FFC107",
-    borderRadius: 10,
-    width: 150,
-    height: 50,
-    marginTop: 20,
-    alignSelf: "center",
-    marginBottom: 20,
-    marginRight: 30,
+        borderRadius: wp('2%'),
+        width: wp('42%'),
+        height: hp('7%'),
+        marginTop: wp('2%'),
+        alignSelf: "center",
+        marginRight: wp('3%'),
   },
   textBtn: {
     color: "white",
-    fontSize: 17,
+    fontSize: hp('2.25%'),
     alignSelf: "center",
-    marginTop: 12,
+    marginTop: wp('3.25%'),
+    fontWeight: 'bold'
   },
   scrollView: {
     position: "absolute",
@@ -299,8 +304,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   cardImage: {
-    height: 150,
-    width: 150,
+    height: 120,
+    width: 120,
     borderRadius: 100,
   },
   cardtitle: {

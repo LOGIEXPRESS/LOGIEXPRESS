@@ -90,7 +90,6 @@ const CambiarContraseña = () => {
     <View style={styles.container}>
       {/* <BOTON DE VOLVER ATRÁS */}
       <View>
-        {/* <Image source={require("../Utils/salida.png")} /> */}
         <HeaderBar screen={"null"} />
       </View>
       <View style={styles.containerImg}>
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: wp('86%'),
     height: hp('7%'),
-    marginTop: 60,
+    marginTop: wp('3.5%'),
   },
   textBtn: {
     color: "white",

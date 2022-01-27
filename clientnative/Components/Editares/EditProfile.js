@@ -177,16 +177,8 @@ const EditProfile = () => {
         style={{ backgroundColor: "white" }}
         showsVerticalScrollIndicator={false}
       >
-   {/*      <View style={styles.iconBar}>
-          <TouchableOpacity
-            //no esta conectado a ningun lugar
-            onPress={() => navigation.navigate("ProfileUserScreen")}
-          >
-            <Icon name="chevron-back-outline" size={30} />
-          </TouchableOpacity>
-        </View> */}
       <HeaderBar screen={'null'}/>
-        <Text style={{ fontWeight: "bold", marginLeft: 15, fontSize: 25 }}>
+        <Text style={{ fontWeight: "bold", marginLeft: wp('4%'), fontSize: hp('3%')}}>
           Editar perfil
         </Text>
         <View style={{ alignItems: "center" }}>
@@ -304,16 +296,7 @@ const EditProfile = () => {
 };
 
 const styles = StyleSheet.create({
-  iconBar: {
-    flexDirection: "row",
-    marginTop: 30,
-    marginBottom: 10,
-    marginHorizontal: 10,
-    justifyContent: "space-between",
-    backgroundColor: "white",
-  },
-
-  containerInputs: {
+   containerInputs: {
     flex: 1,
     alignItems: "flex-start",
     marginTop: 40,
@@ -338,14 +321,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   viewsInputs: {
-    margin: 2,
+    margin: wp('1%'),
     borderColor: "#FFC107",
     borderBottomWidth: 2,
     flexDirection: "row",
     justifyContent: "flex-start",
-    width: wp('85%'),
+    width: wp('87%'),
     alignItems: "flex-start",
-    marginBottom: 15,
+    marginBottom: wp('4.75%'),
   },
   textPlaceholder: {
     marginLeft: 20,
@@ -353,24 +336,27 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   btnEditar: {
-    backgroundColor:"#FFC107",
-    borderRadius: 10,
-    width: 150,
-    height: 50,
-    marginTop: 20,
+    backgroundColor: "#FFC107",
+    borderRadius: wp('2%'),
+    width: wp('42%'),
+    height: hp('7%'),
+    marginTop: wp('6%'),
     alignSelf: "center",
-    marginBottom: 20,
-    marginRight: 30,
+    marginRight: wp('3.5%'),
+    marginBottom: wp('10%')
   },
 
   textBtn: {
     color: "white",
-    fontSize: 17,
-    alignSelf: "center",
-    marginTop: 12,
+    fontSize: hp('2.50%'),
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: wp('3%'),
   },
 
-  btn2: { flexDirection: "row", marginLeft: 20 },
+  btn2: {
+     flexDirection: "row" 
+    },
 });
 
 export default EditProfile;

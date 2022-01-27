@@ -33,7 +33,7 @@ const StartUser = (props) => {
   return (
     //Container Start
     <SafeAreaView
-      style={{ backgroundColor: "#f3f3f3", width: wp('100'), height: hp('90%')}}>
+      style={{ backgroundColor: "#f3f3f3", width: wp('100%'), height: hp('90%')}}>
       <View style={{ backgroundColor: "#7952B3", marginTop: 20, height: 60 }}>
         <Text style={{ color: 'white', display: 'flex', alignSelf: 'center', fontSize: 30, fontWeight: 'bold', marginTop: 15 }}>Comenzar Viaje</Text>
       </View>
@@ -55,7 +55,7 @@ const StartUser = (props) => {
         <Text style={{ textAlign: 'center', marginTop: -130, marginBottom: 10, fontSize: 20, fontWeight: '200' }}>Información sobre el Conductor</Text>
         {/* estrellas rating */}
 
-        <View style={{ width: 240, alignSelf: 'center', marginBottom: 10, }}>
+        <View style={{ width: wp('45%'), alignSelf: 'center', marginBottom: 10, }}>
 
 
           <StarRating
