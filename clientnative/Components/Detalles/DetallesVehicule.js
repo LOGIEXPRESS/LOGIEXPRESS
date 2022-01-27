@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   textDetalle: {
     marginLeft: wp("4%"),
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   btnEditar: {
     backgroundColor: "#511281",
     borderRadius: 10,
-    width: wp("80%"),
+    width: wp("88%"),
     height: hp("7%"),
     marginTop: wp("10%"),
     alignSelf: "center",
