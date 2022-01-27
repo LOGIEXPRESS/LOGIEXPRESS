@@ -9,7 +9,28 @@ export const REQUEST_PERMISSE = 'REQUEST_PERMISSE';
 export const DELETE_PERMISSE = 'DELETE_PERMISSE';
 export const CONFIRME_REQUEST = 'CONFIRME_REQUEST';
 export const REQ_DATA_CARRIER = 'REQ_DATA_CARRIER';
+export const REQ_TRAVEL_ON = 'REQ_TRAVEL_ON';
 import { API_URL } from "@env"
+
+
+
+
+
+
+
+export function reqTravelOn (payload) {
+  return async function(dispatch) {
+    try {
+      const travel = await axios.get(`${ API_URL }/api/TravelOn/${payload}`)
+      return dispatch({
+        type: REQ_TRAVEL_ON,
+        payload: travel.data
+      })
+    } catch (error) {
+      console.log("Error",error)
+    }
+  }
+}
 
 
 
@@ -43,26 +64,10 @@ export function deletePermisse () {
 }
 
 
-export function reqDataCarrier (props) {
-  return async function (dispatch) {
-    try {
-      const resp = await axios.get(`${ API_URL }/api/user/${props}`)
-      return dispatch({
-        type: REQ_DATA_CARRIER,
-        payload: resp.data
-
-      })
-    } catch (error) {
-      console.log("Error", error)
-    }
-  }
-}
-
 
 export function requestPermisse (props) {
   return async function (dispatch) {
     try {
-      console.log("ESTA SON LAS PROPS QUE PASO X ACTIOOOOOOOON", props)
       const resp = await axios.get(`${ API_URL }/api/userTravel/${props}`)
       return dispatch({
         type: REQUEST_PERMISSE,
@@ -440,7 +445,7 @@ export function getVehicules(idRole) {
 export function getActualTravel(idRole) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${API_URL}api/vehicleDetails/${idRole}`);
+      const response = await axios.get(`${API_URL}/api/vehicleDetails/${idRole}`);
       // console.log('Soy el console.log de response', response)
       return dispatch({
         type: 'GET_ACTUAL_TRAVEL',
