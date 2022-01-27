@@ -6,7 +6,7 @@ import {
   Button,
   Image,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -32,32 +32,30 @@ const HistorialDeViajeCarrier = () => {
   //   // console.log('ey, lo hicimos bien?', dataTravels)
 
   const travelsCarrier = useSelector((store) => store.travelsCarrier);
-  console.log("viajes carrier", travelsCarrier);
+  //console.log("viajes carrier", travelsCarrier);
 
   const idUserReg = datosCarrier.id;
   useEffect(() => {
     dispatch(getTravelCarrier(idUserReg));
   }, [dispatch]);
 
-
- const [state, setState] = useState({
-    origen: '',
-    destino: '',
-  })
+  const [state, setState] = useState({
+    origen: "",
+    destino: "",
+  });
 
   const [userIDs, setUserIDs] = useState({
-    carrierId: '',
-    id: '',
-  })
+    carrierId: "",
+    id: "",
+  });
 
-  console.log("ESTE ES EL STATE", state)
-
+  //console.log("ESTE ES EL STATE", state);
 
   useEffect(() => {
     if (travelsCarrier) {
       if (travelsCarrier.actualTravel) {
-        const orig = travelsCarrier.actualTravel[0].orig.split('/')
-        const dest = travelsCarrier.actualTravel[0].destination.split('/')
+        const orig = travelsCarrier.actualTravel[0].orig.split("/");
+        const dest = travelsCarrier.actualTravel[0].destination.split("/");
         setState({
           origen: orig[2],
           destino: dest[2],
@@ -65,27 +63,26 @@ const HistorialDeViajeCarrier = () => {
         setUserIDs({
           carrierId: travelsCarrier.actualTravel[0].carrierId,
           id: travelsCarrier.actualTravel[0].id,
-        })
+        });
       }
     }
     return () => {
       setState({
-        origen: '',
-        destino: '',
-      })
+        origen: "",
+        destino: "",
+      });
       setUserIDs({
-        carrierId: '',
-        id: '',
-      })
+        carrierId: "",
+        id: "",
+      });
     };
   }, [travelsCarrier]);
-
 
   /// --> INICIO DEL COMPONENTE <-- ///
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <HeaderBar screen={'null'} />
+        <HeaderBar screen={"null"} />
         <View style={styles.containerHeaders}>
           <Text style={{ fontSize: hp("2.5%"), fontWeight: "bold" }}>
             Historial de viajes
@@ -98,47 +95,57 @@ const HistorialDeViajeCarrier = () => {
           <Text style={styles.textAnterior}>EN CURSO</Text>
         </View>
         {/* DESDE ACA EMPEZARIA LA PARTE DE VIAJE EN CURSO */}
-       {
-         
-         travelsCarrier.actualTravel ? <View style={styles.containerCards}>
-         <View style={styles.cards}>
-           <View style={styles.insideCard1}>
-             <View>
-               <Text>{ travelsCarrier.actualTravel[0].description}</Text>
-               <View style={styles.textAling}>
-                    <Text style={{ fontWeight: 'bold' }}>Desde: </Text>
+        {travelsCarrier.actualTravel ? (
+          <View style={styles.containerCards}>
+            <View style={styles.cards}>
+              <View style={styles.insideCard1}>
+                <View>
+                  <Text>{travelsCarrier.actualTravel[0].description}</Text>
+                  <View style={styles.textAling}>
+                    <Text style={{ fontWeight: "bold" }}>Desde: </Text>
                     <Text>{state.origen}</Text>
                   </View>
                   <View style={styles.textAling}>
-                    <Text style={{ fontWeight: 'bold' }}>Hasta: </Text>
+                    <Text style={{ fontWeight: "bold" }}>Hasta: </Text>
                     <Text>{state.destino}</Text>
                   </View>
-               <Text style={{ color: "green", fontWeight: "bold" }}>
-                 {travelsCarrier.actualTravel[0].finishedTravel}
-               </Text>
-               <TouchableOpacity onPress={() => navigation.navigate('TravelOn', userIDs)}>
-                    <Text style={{ color: "green", fontWeight: "bold" }}>
+                  <Text style={{ color: "green", fontWeight: "bold" }}>
+                    {travelsCarrier.actualTravel[0].finishedTravel}
+                  </Text>
+                  <View style={styles.burbujaChat}>
+
+                 
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("TravelOn", userIDs)}
+                    style={styles.btnEditar}
+                  >
+                    <Text style={styles.textVerViaje}>
                       Ver viaje
                     </Text>
                   </TouchableOpacity>
-               <Text style={styles.price}>${travelsCarrier.actualTravel[0].price}</Text>
-             </View>
-             <View style={{marginTop: wp('-3%'), marginLeft: wp('11')}}>
-               <TouchableWithoutFeedback
-                 onPress={() => {
-                   navigation.navigate("Chat");
-                 }}
-               >
-                 <Image
-                   source={require("./burbuja-de-dialogo.png")}
-                   style={{ width: wp("16%"), height: hp("7%")}}
-                 />
-               </TouchableWithoutFeedback>
-             </View>
-           </View>
-         </View>
-       </View> : <ActivityIndicator size="large" color="#0000ff" />
-       }
+                  <Text style={styles.price}>
+                    ${travelsCarrier.actualTravel[0].price}
+                  </Text>
+                
+                
+                  <TouchableWithoutFeedback
+                    onPress={() => {
+                      navigation.navigate("Chat");
+                    }}
+                  >
+                    <Image
+                      source={require("./burbuja-de-dialogo.png")}
+                      style={{ width: wp("15%"), height: hp("7%") }}
+                    />
+                  </TouchableWithoutFeedback>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <ActivityIndicator size="large" color="#0000ff" />
+        )}
 
         <View style={styles.viewAnterior}>
           <Text style={styles.textAnterior}>ANTERIORES</Text>
@@ -155,7 +162,9 @@ const HistorialDeViajeCarrier = () => {
                     <Text>Peso en toneladas: {datos.weight}</Text>
                     <Text>{orig[2]}</Text>
                     <Text>{dest[2]}</Text>
-                    <Text style={{ color: "red", fontWeight: "bold" }}>{datos.finishedTravel}</Text>
+                    <Text style={{ color: "red", fontWeight: "bold" }}>
+                      {datos.finishedTravel}
+                    </Text>
                     <Text style={styles.price}>$ {datos.price}</Text>
                   </View>
                 </View>
@@ -183,6 +192,19 @@ const styles = StyleSheet.create({
     marginLeft: wp("5%"),
     paddingBottom: wp("2%"),
   },
+  btnEditar: {
+    backgroundColor: "#FFC107",
+    borderRadius: wp("2%"),
+    width: wp("30%"),
+    height: hp("4%"),
+  },
+  textViajes: {
+    fontSize: hp("1.75%"),
+  },
+  textHistorial: {
+    fontSize: hp("2.5%"),
+    fontWeight: "bold",
+  },
   viewAnterior: {
     padding: wp("2%"),
     backgroundColor: "#DDDDDD", //"#FFC107",
@@ -205,13 +227,26 @@ const styles = StyleSheet.create({
   },
   insideCard: {
     width: wp("91%"),
-    padding: wp("5%"),
+    padding: wp("4%"),
+  },
+  burbujaChat: {
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "row",
+    width: wp("88%"),
+  },
+  textVerViaje: {
+     color: 'black',
+     fontWeight: "bold",
+     fontSize: hp('2%'),
+     textAlign: 'center',
+     marginTop: wp('1%')
   },
   insideCard1: {
     width: wp("91%"),
-    padding: wp("5%"),
+    padding: wp("1.15%"),
     flexDirection: "row",
-
   },
   price: {
     textAlign: "center",
@@ -220,7 +255,6 @@ const styles = StyleSheet.create({
     fontSize: hp("2%"),
   },
   textAling: {
-    flexDirection: 'row'
+    flexDirection: "row",
   },
-
 });

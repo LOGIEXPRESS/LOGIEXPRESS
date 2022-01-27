@@ -27,10 +27,10 @@ const Chat = () => {
   const navigation = useNavigation();
   //Lo traemos del store
   const socket = useSelector((store) => store.socket);
-  //console.log('soy sockets', socket)
+  console.log('soy sockets', socket)
 
-  //const fullData = useSelector((store) => store)
-  //console.log('soy fulldata', fullData)
+  const fullData = useSelector((store) => store)
+  console.log('soy fulldata', fullData)
 
   const datos = useSelector((store) => store.responseLog);
   //console.log("traigo datos", datos);

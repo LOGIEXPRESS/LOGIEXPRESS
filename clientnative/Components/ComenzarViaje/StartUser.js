@@ -15,7 +15,10 @@ import {
 } from "react-native";
 import StarRating from 'react-native-star-rating';
 import HeaderBar from "../Utils/HeaderBar";
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -25,19 +28,12 @@ const StartUser = (props) => {
   const data = props.route.params
   const navigation = useNavigation();
 
-  console.log("ESTO ES LO QUE LLEGAAAAAAAAAAA", data)
+  //console.log("ESTO ES LO QUE LLEGAAAAAAAAAAA", data)
 
   return (
     //Container Start
     <SafeAreaView
-      style={{ backgroundColor: "#f3f3f3"}}
-
-    >
-      {/* Brand View */}
-
-      {/* <HeaderBar /> */}
-
-
+      style={{ backgroundColor: "#f3f3f3", width: wp('100'), height: hp('90%')}}>
       <View style={{ backgroundColor: "#7952B3", marginTop: 20, height: 60 }}>
         <Text style={{ color: 'white', display: 'flex', alignSelf: 'center', fontSize: 30, fontWeight: 'bold', marginTop: 15 }}>Comenzar Viaje</Text>
       </View>

@@ -90,7 +90,7 @@ const ProfileUserScreen = () => {
               navigation.navigate("HistorialDeViaje");
             }}
           >
-            <Icon name="bus-outline" style={styles.icons} />
+            <Icon name="location-outline" style={styles.icons} />
             <Text style={styles.userBtnTxt}>Historial de viajes</Text>
             {/* <Icon name="chevron-forward-outline" style={styles.icons3} /> */}
           </TouchableOpacity>

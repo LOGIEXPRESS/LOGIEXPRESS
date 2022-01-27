@@ -1,4 +1,13 @@
-import { ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useEffect, useState } from "react";
 import React from "react";
 import HeaderBar from "../Utils/HeaderBar";
@@ -8,7 +17,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useSelector, useDispatch } from "react-redux";
-import { getTravelUser } from "../../actions";
+import { editProfileCarrier, getTravelUser } from "../../actions";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/core";
 
@@ -20,7 +29,7 @@ const HistorialDeViaje = () => {
 
   //nos traemos el estado para saber si lo hicimos bien
   const dataTravels = useSelector((store) => store.travelsUser);
-  console.log('ey, lo hicimos biennnnn?', dataTravels)
+  //console.log('ey, lo hicimos biennnnn?', dataTravels)
 
   // // const travelsCarrier = useSelector((store) => store.travelsCarrier)
   // // console.log('viajes carrier', travelsCarrier)
@@ -29,27 +38,23 @@ const HistorialDeViaje = () => {
 
   useEffect(() => {
     dispatch(getTravelUser(idUserReg));
-
-
   }, [dispatch]);
 
-
   const [state, setState] = useState({
-    origen: '',
-    destino: '',
-  })
+    origen: "",
+    destino: "",
+  });
 
   const [userIDs, setUserIDs] = useState({
-    userId: '',
-    id: '',
-  })
-
+    userId: "",
+    id: "",
+  });
 
   useEffect(() => {
     if (dataTravels) {
       if (dataTravels.actualTravel) {
-        const orig = dataTravels.actualTravel[0].orig.split('/')
-        const dest = dataTravels.actualTravel[0].destination.split('/')
+        const orig = dataTravels.actualTravel[0].orig.split("/");
+        const dest = dataTravels.actualTravel[0].destination.split("/");
         setState({
           origen: orig[2],
           destino: dest[2],
@@ -57,28 +62,27 @@ const HistorialDeViaje = () => {
         setUserIDs({
           userId: dataTravels.actualTravel[0].userId,
           id: dataTravels.actualTravel[0].id,
-        })
+        });
       }
     }
     return () => {
       setState({
-        origen: '',
-        destino: '',
-      })
+        origen: "",
+        destino: "",
+      });
       setUserIDs({
-        userId: '',
-        id: '',
-      })
+        userId: "",
+        id: "",
+      });
     };
   }, [dataTravels]);
-
 
   /// --> INICIO DEL COMPONENTE <-- ///
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <HeaderBar screen={"null"} />
         <View style={styles.containerHeaders}>
-          <HeaderBar screen={'null'} />
           <Text style={{ fontSize: hp("2.5%"), fontWeight: "bold" }}>
             Historial de viajes
           </Text>
@@ -89,48 +93,57 @@ const HistorialDeViaje = () => {
         <View style={styles.viewAnterior}>
           <Text style={styles.textAnterior}>EN CURSO</Text>
         </View>
-        {
-          dataTravels.actualTravel ? <View style={styles.containerCards}>
+        {dataTravels?.actualTravel ? (
+          <View style={styles.containerCards}>
             <View style={styles.cards}>
               <View style={styles.insideCard1}>
-
                 <View>
-                  <Text>Descripcion del viaje: {dataTravels.actualTravel[0].description}</Text>
+                  <Text>
+                    Descripcion del viaje:{" "}
+                    {dataTravels.actualTravel[0].description}
+                  </Text>
                   <View style={styles.textAling}>
-                    <Text style={{ fontWeight: 'bold' }}>Desde: </Text>
+                    <Text style={{ fontWeight: "bold" }}>Desde: </Text>
                     <Text>{state.origen}</Text>
                   </View>
                   <View style={styles.textAling}>
-                    <Text style={{ fontWeight: 'bold' }}>Hasta: </Text>
+                    <Text style={{ fontWeight: "bold" }}>Hasta: </Text>
                     <Text>{state.destino}</Text>
                   </View>
                   <Text style={{ color: "green", fontWeight: "bold" }}>
                     {dataTravels.actualTravel[0].finishedTravel}
                   </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('TravelOn', userIDs)}>
-                    <Text style={{ color: "green", fontWeight: "bold" }}>
-                      Ver viaje
+
+                  <View style={styles.burbujaChat}>
+                    <TouchableOpacity
+                      style={styles.btnEditar}
+                      onPress={() => navigation.navigate("TravelOn", userIDs)}
+                    >
+                      <Text style={styles.textVerViaje}>
+                        Ver viaje
+                      </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.price}>
+                      $ {dataTravels.actualTravel[0].price}
                     </Text>
-                  </TouchableOpacity>
-                  <Text style={styles.price1}>$ {dataTravels.actualTravel[0].price}</Text>
-                </View>
-                <View style={{ marginTop: wp('-3%'), marginLeft: wp('11') }}>
-                  <TouchableWithoutFeedback
-                    onPress={() => {
-                      navigation.navigate("Chat");
-                    }}
-                  >
-                    <Image
-                      source={require("./burbuja-de-dialogo.png")}
-                      style={{ width: wp("16%"), height: hp("7%") }}
-                    />
-                  </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                      onPress={() => {
+                        navigation.navigate("Chat");
+                      }}
+                    >
+                      <Image
+                        source={require("./burbuja-de-dialogo.png")}
+                        style={{ width: wp("15%"), height: hp("7%") }}
+                      />
+                    </TouchableWithoutFeedback>
+                  </View>
                 </View>
               </View>
             </View>
-          </View> : <ActivityIndicator size="large" color="#0000ff" />
-        }
-
+          </View>
+        ) : (
+          <ActivityIndicator size="large" color="#0000ff" />
+        )}
 
         <View style={styles.viewAnterior}>
           <Text style={styles.textAnterior}>ANTERIORES</Text>
@@ -147,7 +160,9 @@ const HistorialDeViaje = () => {
                     <Text>Peso en toneladas: {datos.weight}</Text>
                     <Text>{orig[2]}</Text>
                     <Text>{dest[2]}</Text>
-                    <Text style={styles.textFinished}>{datos.finishedTravel}</Text>
+                    <Text style={styles.textFinished}>
+                      {datos.finishedTravel}
+                    </Text>
                     <Text style={styles.price}>$ {datos.price}</Text>
                   </View>
                 </View>
@@ -175,12 +190,19 @@ const styles = StyleSheet.create({
     marginLeft: wp("5%"),
     paddingBottom: wp("2%"),
   },
+  btnEditar: {
+    backgroundColor: "#FFC107",
+    borderRadius: wp("2%"),
+    width: wp("30%"),
+    height: hp("4%"),
+  },
+
   textHistorial: {
     fontSize: hp("2.5%"),
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   textViajes: {
-    fontSize: hp("1.75%")
+    fontSize: hp("1.75%"),
   },
   viewAnterior: {
     padding: wp("2%"),
@@ -204,13 +226,26 @@ const styles = StyleSheet.create({
   },
   insideCard: {
     width: wp("91%"),
-    padding: wp("5%"),
-
+    padding: wp("4%"),
+  },
+  burbujaChat: {
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "row",
+    width: wp("88%"),
+  },
+  textVerViaje: {
+     color: 'black',
+     fontWeight: "bold",
+     fontSize: hp('2%'),
+     textAlign: 'center',
+     marginTop: wp('1%')
   },
   insideCard1: {
     width: wp("91%"),
-    padding: wp("5%"),
-    flexDirection: 'row'
+    padding: wp("1.15%"),
+    flexDirection: "row",
   },
   price: {
     textAlign: "center",
@@ -218,17 +253,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: hp("2%"),
   },
-  price1: {
-    textAlign: "center",
-    justifyContent: "center",
+  textFinished: {
+    color: "red",
     fontWeight: "bold",
-    fontSize: hp("2%"),
-    marginLeft: wp('18%')
   },
-  textFinished: { color: 'red', fontWeight: 'bold' },
   textAling: {
-    flexDirection: 'row'
-  }
+    flexDirection: "row",
+  },
 });
 
 /*container: { flex: 1 },
