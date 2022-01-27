@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { cotizarViaje, requestTravel } from "../actions/index.js";
 import { LogBox } from "react-native";
 import HeaderBar from "./Utils/HeaderBar";
+import { APIKEY_GOOGLE } from "@env"
 import { desmount  } from "../actions/index";
 import {
   widthPercentageToDP as wp,
@@ -99,7 +100,7 @@ const CotizarViaje = () => {
                   });
                 }}
                 query={{
-                  key: "AIzaSyCctmpoWkqc4Te99YNkI0hgsyVfpbEci5M",
+                  key: `${APIKEY_GOOGLE}`,
                   language: "en",
                   components: "country:arg",
                   types: "geocode",
@@ -137,7 +138,7 @@ const CotizarViaje = () => {
                   });
                 }}
                 query={{
-                  key: "AIzaSyCctmpoWkqc4Te99YNkI0hgsyVfpbEci5M",
+                  key: `${APIKEY_GOOGLE}`,
                   language: "en",
                   components: "country:arg",
                   types: "geocode",
@@ -172,7 +173,7 @@ const CotizarViaje = () => {
               <Text style={{ fontSize: 21, marginLeft: 22, fontWeight: 'bold' }}>$ {price}</Text>
             </View>
             {/* BOTON */}
-            <View style={{ marginTop: 80, marginLeft: 25 }}>
+            <View style={{ marginTop: wp('10%'), marginLeft: wp('4%') }}>
               <TouchableOpacity style={styles.btnEditar} onPress={handleQuote}>
                 <Text style={styles.textBtn}>Cotizar</Text>
               </TouchableOpacity>

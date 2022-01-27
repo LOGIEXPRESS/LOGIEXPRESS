@@ -12,21 +12,19 @@ import { useNavigation } from "@react-navigation/core";
 const WIDTH = Dimensions.get("window").width;
 const HEIGTH_MODAL = 220;
 
-
-
-
-
-const SimpleModalpagobad = (props) => {
+const SimpleModalcanceltrip = (props) => {
   const navigation = useNavigation();
 
-  const navegar=()=>{
-    navigation.navigate('ProfileUserScreen')
-  }
-
-  let closeModal = (bool, data) => {
-    props.changeModalVisible61(bool);
-    props.setData61(data);
+  let closeModal = (bool, data,boole) => {
+    props.changeModalVisible70(bool);
+    props.setData70(data);
+    props.setActivacion70(boole);
   };
+
+  let fuxion = () =>{
+    closeModal(false, "Aceptar",true)
+
+  }
 
   return (
     <TouchableOpacity disabled={true} style={styles.container}>
@@ -39,19 +37,27 @@ const SimpleModalpagobad = (props) => {
             />
           </View>
           <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-            ¡ERROR!
+            ¡ATENCIÓN!
           </Text>
           <Text style={{ fontSize: 16, margin: 7 }}>
-            ¡Algo salió mal. Por favor, vuelva a intentarlo!
+            ¿Seguro que deseas cancelar este viaje?
           </Text>
         </View>
         <View style={styles.containerBtn}>
+          
           <TouchableOpacity
-            onPress={navegar}
+            onPress={fuxion}
             // onPressIn={() => navigation.navigate("CompleteProfileCarrier")}
             style={styles.btnAceptar}
           >
-            <Text style={{ fontSize: 16, fontWeight: "bold", color:"white" }}>Continuar</Text>
+            <Text style={{ fontSize: 16, fontWeight: "bold", color:"white" }}>Aceptar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => closeModal(false, "Aceptar")}
+            // onPressIn={() => navigation.navigate("CompleteProfileCarrier")}
+            style={styles.btnAceptar}
+          >
+            <Text style={{ fontSize: 16, fontWeight: "bold", color:"white" }}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -59,7 +65,7 @@ const SimpleModalpagobad = (props) => {
   );
 };
 
-export default SimpleModalpagobad;
+export default SimpleModalcanceltrip;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,8 +96,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   containerBtn: {
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-around',
     alignContent: "center",
     alignItems: "center",
     margin: 10,
+    
   },
 });

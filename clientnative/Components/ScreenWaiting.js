@@ -7,12 +7,19 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  Modal
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import HeaderBar from "./Utils/HeaderBar";
 import { useNavigation } from "@react-navigation/core";
-import { getTravelID, desmount, reqDataCarrier } from "../actions/index";
+import { getTravelID, desmount } from "../actions/index";
 import { useSelector, useDispatch } from "react-redux";
+import SimpleModal70 from "./AlertasTravel/SimpleModalcanceltrip";
+// prueba para las screens responsive
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const ScreenWaiting = (payload) => {
 
@@ -33,6 +40,23 @@ const ScreenWaiting = (payload) => {
     
   }, [dispatch]);
 
+      // COMBINACION MAIL Y PASS MAL
+      const [isModalVisible70, setisModalVisible70] = useState(false);
+      const [chooseData70, setchooseData70] = useState();
+      const [activar70, setActivar70] = useState(false);
+    
+      const changeModalVisible70 = (bool) => {
+        setisModalVisible70(bool);
+      };
+    
+      const setData70 = (data) => {
+        setchooseData70(data);
+      };
+
+      const setActivacion70 = (boole) => {
+        setActivar70(boole);
+      };
+
 
 /*   useEffect(() => {
     if(respDelete) {
@@ -46,16 +70,6 @@ const ScreenWaiting = (payload) => {
   
 
   const [objCarrier, SetObjCarrrier] = useState(null)
-
-  useEffect(() => {
-    if (travel) {
-      if (travel.carrier) {
-        SetObjCarrrier(travel.carrier)
-      }
-    };
-  }, [travel]);
-
-
 
 
 
@@ -74,8 +88,7 @@ const ScreenWaiting = (payload) => {
 
   console.log("ESTO ES OBJCARRIER", objCarrier)
 
-
-  const handleDelete = () => {
+  if(activar70 === true){
     const deleteTravel = () => {
       id
       socket.emit('delete', id, (response) => {
@@ -87,6 +100,8 @@ const ScreenWaiting = (payload) => {
     deleteTravel();
   }
 
+ 
+
   const [response, setResponse] = useState(null)
   const [respDelete, setRespDelete] = useState(null)
 
@@ -97,7 +112,7 @@ const ScreenWaiting = (payload) => {
     });
     if(respDelete) {
       if(respDelete.status === 'Viaje eliminado exitosamente') {
-        alert('Viaje eliminado exitosamente')
+        // alert('Viaje eliminado exitosamente')
         navigation.navigate('ProfileUserScreen')
       }
       console.log("ESTO ES LA RESPUESTA DE DELETE",respDelete.status);
@@ -175,7 +190,6 @@ const ScreenWaiting = (payload) => {
       style={{
         flex: 1,
         backgroundColor: "#fff",
-        marginTop: 30,
       }}
     >  
       <HeaderBar screen={'ProfileUserScreen'}/>
@@ -195,7 +209,7 @@ const ScreenWaiting = (payload) => {
           </View>
           <View style={{ alignItems: "center", marginTop: 40 }}>
             <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-              ESPERANDO ACEPTACION
+              ESPERANDO ACEPTACIÓN
             </Text>
           </View>
           <View style={(styles.container, styles.horizontal)}>
@@ -216,10 +230,23 @@ const ScreenWaiting = (payload) => {
             <View style={styles.btn2}>
               <TouchableOpacity
                 style={styles.btnEditar}
-                onPress={handleDelete}
+                onPress={()=> changeModalVisible70(true)}
               >
                 <Text style={styles.textBtn}>Cancelar Viaje</Text>
               </TouchableOpacity>
+              <Modal
+                  transparent={true}
+                  animationType="fade"
+                  visible={isModalVisible70}
+                  nRequestClose={() => changeModalVisible70(false)}
+                >
+                  <SimpleModal70
+                    changeModalVisible70={changeModalVisible70}
+                    setData70={setData70}
+                    setActivacion70={setActivacion70}
+                  />
+                  
+                  </Modal>
             </View>
           </View>
         </View>
@@ -238,22 +265,26 @@ const styles = StyleSheet.create({
   },
   btnEditar: {
     backgroundColor: "#FFC107",
-    borderRadius: 10,
-    width: 150,
-    height: 50,
-    marginTop: 20,
+    borderRadius: wp('2%'),
+    width: wp('42%'),
+    height: hp('7%'),
+    marginTop: wp('6%'),
     alignSelf: "center",
-    marginBottom: 20,
-    marginRight: 30,
+    marginRight: wp('3.5%'),
+    marginBottom: wp('10%')
   },
 
   textBtn: {
     color: "white",
-    fontSize: 17,
-    alignSelf: "center",
-    marginTop: 12,
+    fontSize: hp('2.30%'),
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: wp('3%'),
   },
-  btn2: { flexDirection: "row", marginLeft: 30 },
+
+  btn2: {
+     flexDirection: "row" 
+    },
   horizontal: {
     flexDirection: "row",
     justifyContent: "space-around",

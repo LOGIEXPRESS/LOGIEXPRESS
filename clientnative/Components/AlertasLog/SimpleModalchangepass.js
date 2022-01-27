@@ -12,20 +12,12 @@ import { useNavigation } from "@react-navigation/core";
 const WIDTH = Dimensions.get("window").width;
 const HEIGTH_MODAL = 220;
 
-
-
-
-
-const SimpleModalpagobad = (props) => {
+const SimpleModalchangepass = (props) => {
   const navigation = useNavigation();
 
-  const navegar=()=>{
-    navigation.navigate('ProfileUserScreen')
-  }
-
   let closeModal = (bool, data) => {
-    props.changeModalVisible61(bool);
-    props.setData61(data);
+    props.changeModalVisible80(bool);
+    props.setData80(data);
   };
 
   return (
@@ -42,12 +34,12 @@ const SimpleModalpagobad = (props) => {
             ¡ERROR!
           </Text>
           <Text style={{ fontSize: 16, margin: 7 }}>
-            ¡Algo salió mal. Por favor, vuelva a intentarlo!
+            ¡Las contraseñas deben coincidir!
           </Text>
         </View>
         <View style={styles.containerBtn}>
           <TouchableOpacity
-            onPress={navegar}
+            onPress={() => closeModal(false, "Aceptar")}
             // onPressIn={() => navigation.navigate("CompleteProfileCarrier")}
             style={styles.btnAceptar}
           >
@@ -59,7 +51,7 @@ const SimpleModalpagobad = (props) => {
   );
 };
 
-export default SimpleModalpagobad;
+export default SimpleModalchangepass;
 
 const styles = StyleSheet.create({
   container: {

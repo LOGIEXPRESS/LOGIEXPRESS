@@ -15,7 +15,10 @@ import {
 } from "react-native";
 import StarRating from 'react-native-star-rating';
 import HeaderBar from "../Utils/HeaderBar";
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -25,31 +28,25 @@ const StartUser = (props) => {
   const data = props.route.params
   const navigation = useNavigation();
 
-  console.log("ESTO ES LO QUE LLEGAAAAAAAAAAA", data)
+  //console.log("ESTO ES LO QUE LLEGAAAAAAAAAAA", data)
 
   return (
     //Container Start
     <SafeAreaView
-      style={{ backgroundColor: "#f3f3f3"}}
-
-    >
-      {/* Brand View */}
-
-      {/* <HeaderBar /> */}
-
-
+      style={{ backgroundColor: "#f3f3f3", width: wp('100%'), height: hp('90%')}}>
       <View style={{ backgroundColor: "#7952B3", marginTop: 20, height: 60 }}>
         <Text style={{ color: 'white', display: 'flex', alignSelf: 'center', fontSize: 30, fontWeight: 'bold', marginTop: 15 }}>Comenzar Viaje</Text>
       </View>
       <ImageBackground
         source={require("./camion2.gif")}
         style={{
-          height: '40%',
-          width: '40%',
+          height: '45%',
+          width: '60%',
           display: 'flex',
           alignSelf: 'center',
-          marginLeft: 40,
+          marginLeft: 60,
           marginTop: 10,
+          
         }}
       >
       </ImageBackground>
@@ -58,7 +55,7 @@ const StartUser = (props) => {
         <Text style={{ textAlign: 'center', marginTop: -130, marginBottom: 10, fontSize: 20, fontWeight: '200' }}>Información sobre el Conductor</Text>
         {/* estrellas rating */}
 
-        <View style={{ width: 240, alignSelf: 'center', marginBottom: 10, }}>
+        <View style={{ width: wp('45%'), alignSelf: 'center', marginBottom: 10, }}>
 
 
           <StarRating
@@ -77,17 +74,21 @@ const StartUser = (props) => {
         {/* NOMBRE */}
         <View style={{ height: 35, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
           <Text style={{ fontSize: 18, fontWeight: '500', }}>Nombre: </Text>
-          <Text style={{ fontSize: 17, fontWeight: '300' }}>Juan Carlos</Text>
+          <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.carrier.user_Reg.name}</Text>
+        </View>
+        <View style={{ height: 35, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
+          <Text style={{ fontSize: 18, fontWeight: '500', }}>Apellido: </Text>
+          <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.carrier.user_Reg.lastName}</Text>
         </View>
         {/* TELEFONO */}
         <View style={{ height: 35, marginTop: 3, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
           <Text style={{ fontSize: 18, fontWeight: '500' }}>Teléfono: </Text>
-          <Text style={{ fontSize: 17, fontWeight: '300' }}>+54113947212</Text>
+          <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.carrier.user_Reg.phone}</Text>
         </View>
         {/* VEHICULO */}
         <View style={{ height: 35, marginTop: 3, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
-          <Text style={{ fontSize: 18, fontWeight: '500' }}>Tranporte: </Text>
-          <Text style={{ fontSize: 17, fontWeight: '300' }}>Mercedes Benz 710 Negro</Text>
+          <Text style={{ fontSize: 18, fontWeight: '500' }}>Licencia: </Text>
+          <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.carrier.license}</Text>
         </View>
         {/* REPUTACION */}
 
@@ -97,8 +98,8 @@ const StartUser = (props) => {
           </View>
           {/* MERCADOPAGO */}
           <View style={{ height: 35, marginTop: 3, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: '500' }}>Tarjeta de Credito:</Text>
-            <Text style={{ fontSize: 17, fontWeight: '300' }}>4242-****-****-4242</Text>
+            <Text style={{ fontSize: 18, fontWeight: '500' }}>DNI:</Text>
+            <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.user.identification}</Text>
           </View>
           <View style={{ height: 35, marginTop: 3, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
             <Text style={{ fontSize: 18, fontWeight: '500' }}>Precio:</Text>
@@ -106,7 +107,7 @@ const StartUser = (props) => {
           </View>
           <View style={{ height: 35, marginTop: 3, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
             <Text style={{ fontSize: 18, fontWeight: '500' }}>Id del Viaje: </Text>
-            <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.travel.id}</Text>
+            <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.user.id.slice(24)}</Text>
           </View>
 
         </View>

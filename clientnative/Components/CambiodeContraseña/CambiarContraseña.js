@@ -16,42 +16,63 @@ import Icon from "react-native-vector-icons/Ionicons";
 //Hook para la navegacion
 import { useNavigation } from "@react-navigation/core";
 import ModalContraseña from "./ModalContraseña";
-import HeaderBar from '../Utils/HeaderBar.js';
-import ModalSuccess from './ModalSuccess';
-import { desmount } from '../../actions/index.js'
+import HeaderBar from "../Utils/HeaderBar.js";
+import ModalSuccess from "./ModalSuccess";
+import SimpleModal80 from "../AlertasLog/SimpleModalchangepass";
+import { desmount } from "../../actions/index.js";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const CambiarContraseña = () => {
   const dispatch = useDispatch();
   const data = useSelector((store) => store.responseLog);
-  const editPassword = useSelector((store) => store. editPassword);
+  const editPassword = useSelector((store) => store.editPassword);
 
   useEffect(() => {
-    console.log("cambio de pass",  editPassword);
-    if(editPassword?.menssage) {
-      changeModalVisible2(true)
+    // console.log("cambio de pass",  editPassword);
+    if (editPassword?.menssage) {
+      changeModalVisible2(true);
     }
-  }, [data,  editPassword]);
+  }, [data, editPassword]);
 
- useEffect(() => {
-   return () => {
-    dispatch(desmount())
-   };
- }, [dispatch]);
- 
+  useEffect(() => {
+    return () => {
+      dispatch(desmount());
+    };
+  }, [dispatch]);
 
   /// --> ESTADO PARA EL INPUT <-- ///
   const [contraseña, setContraseña] = useState("");
+  const [contraseña2, setContraseña2] = useState("");
 
   /// --> ESTADO PARA EL MODAL DE WARNING <-- ///
   const [isModalVisible, setisModalVisible] = useState(false);
   const [chooseData, setchooseData] = useState();
 
   const changeModalVisible = (bool) => {
-    setisModalVisible(bool);
+    if (contraseña === contraseña2 && contraseña != "") {
+      setisModalVisible(bool);
+    } else {
+      changeModalVisible80(true);
+    }
   };
 
   const setData = (data) => {
     setchooseData(data);
+  };
+
+  // CONTRASEÑA NO COINCIDEN
+
+  const [isModalVisible80, setisModalVisible80] = useState(false);
+  const [chooseData80, setchooseData80] = useState();
+
+  const changeModalVisible80 = (bool) => {
+    setisModalVisible80(bool);
+  };
+  const setData80 = (data) => {
+    setchooseData80(data);
   };
 
   /// --> ESTADO PARA EL MODAL DE SUCCESS <-- ///
@@ -67,11 +88,9 @@ const CambiarContraseña = () => {
   };
   return (
     <View style={styles.container}>
-    
       {/* <BOTON DE VOLVER ATRÁS */}
-      <View style={{ marginTop :35}}>
-        {/* <Image source={require("../Utils/salida.png")} /> */}
-        <HeaderBar  screen={'null'}/>
+      <View>
+        <HeaderBar screen={"null"} />
       </View>
       <View style={styles.containerImg}>
         <Image
@@ -88,6 +107,14 @@ const CambiarContraseña = () => {
           secureTextEntry={true}
           style={styles.textPlaceholder}
           onChangeText={(text) => setContraseña(text)}
+        />
+      </View>
+      <View style={styles.viewsInputs}>
+        <TextInput
+          placeholder="¡Vuelve a ingresar la contraseña!"
+          secureTextEntry={true}
+          style={styles.textPlaceholder}
+          onChangeText={(text) => setContraseña2(text)}
         />
       </View>
 
@@ -111,14 +138,26 @@ const CambiarContraseña = () => {
           />
         </Modal>
         <Modal
-         transparent={true}
-         animationType="fade"
-         visible={isModalVisible2}
-         nRequestClose={() => changeModalVisible2(false)}
+          transparent={true}
+          animationType="fade"
+          visible={isModalVisible2}
+          nRequestClose={() => changeModalVisible2(false)}
         >
-        <ModalSuccess
-          changeModalVisible2={changeModalVisible2}
-          setData2={setData2} />
+          <ModalSuccess
+            changeModalVisible2={changeModalVisible2}
+            setData2={setData2}
+          />
+        </Modal>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={isModalVisible80}
+          nRequestClose={() => changeModalVisible80(false)}
+        >
+          <SimpleModal80
+            changeModalVisible80={changeModalVisible80}
+            setData80={setData80}
+          />
         </Modal>
       </TouchableOpacity>
     </View>
@@ -131,7 +170,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   viewsInputs: {
-    marginTop: 10,
+    marginTop: wp('2%'),
     backgroundColor: "#EAEAEA",
     height: 55,
     width: "85%",
@@ -142,12 +181,12 @@ const styles = StyleSheet.create({
   textPlaceholder: {
     fontSize: 17,
     marginTop: 12,
-    textAlign: 'center'
+    textAlign: "center",
   },
   containerImg: {
     alignContent: "center",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: wp('3%'),
   },
   textNewContra: {
     textAlign: "center",
@@ -164,9 +203,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#FFC107",
     borderRadius: 10,
-    width: "40%",
-    height: 50,
-    marginTop: 60,
+    width: wp('86%'),
+    height: hp('7%'),
+    marginTop: wp('3.5%'),
   },
   textBtn: {
     color: "white",

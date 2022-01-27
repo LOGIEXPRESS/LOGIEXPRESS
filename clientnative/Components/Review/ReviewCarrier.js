@@ -17,7 +17,11 @@ import StarRating from 'react-native-star-rating';
 import HeaderBar from "../Utils/HeaderBar";
 import {reviewCarrier} from "../../actions/index"
 import { useDispatch, useSelector } from "react-redux";
-
+// prueba para las screens responsive
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -50,7 +54,7 @@ const StartUser = (props) => {
     e.preventDefault();
     // en un objeto pongo lo que tengo en el estado inicial
     const obj = {
-      idTravel: '05c9cb04-e3b6-4d1e-be6e-ddc508f2f51e',
+      idTravel: props.route.params,
       User_raiting: review.rating,
       User_comment: review.description,
     };
@@ -74,7 +78,7 @@ const StartUser = (props) => {
       rating: "",
       description: "",
     });
-
+    navigation.navigate('ProfileScreenCarrier')
     //cuando se cumpla que respuesta != null
     //haga un console.log(respuesta)
 
@@ -85,89 +89,71 @@ const StartUser = (props) => {
 
   return (
     //Container Start
-    <SafeAreaView
-      style={{ backgroundColor: "#f3f3f3"}}
-
-    >
-
-
-      <View style={{ backgroundColor: "#7952B3", marginTop: 20, height: 60 }}>
-        <Text style={{ color: 'white', display: 'flex', alignSelf: 'center', fontSize: 30, fontWeight: 'bold', marginTop: 15 }}>El Viaje ha finalizado</Text>
+    <SafeAreaView style={{ backgroundColor: "#f3f3f3" }}>
+      <View style={{ backgroundColor: "#7952B3", marginTop: wp('2%'), height: hp('10%') }}>
+        <Text
+          style={{
+            color: "white",
+            display: "flex",
+            alignSelf: "center",
+            fontSize: hp('3.2%'),
+            fontWeight: "bold",
+            marginTop: wp('5%'),
+          }}
+        >
+          ¡El viaje ha finalizado!
+        </Text>
       </View>
-      {/* <ImageBackground
-        source={require("./camion2.gif")}
-        style={{
-          height: '40%',
-          width: '40%',
-          display: 'flex',
-          alignSelf: 'center',
-          marginLeft: 40,
-          marginTop: 10,
-        }}
-      >
-      </ImageBackground> */}
       <View>
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: wp('20%'),
+            fontSize: hp('2.7%'),
+            fontWeight: "bold",
+          }}
+        >
+          Califica al Conductor
+        </Text>
+        <View style={{ width: hp('35%'), alignSelf: "center", margin: wp('5%')}}>
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            rating={Number(review.rating)}
+            selectedStar={(rating) => handelChangeRating(rating)}
+            fullStarColor="purple"
+          />
+        </View>
 
-        <Text style={{ textAlign: 'center', marginTop: 30, fontSize: 20, fontWeight: '200' }}>Califica al Usuario</Text>
-        {/* estrellas rating */}
-
-        <View style={{ width: 240, alignSelf: 'center', marginTop: 50, }}>
-
-        <StarRating
-        disabled={false}
-        maxStars={5}
-        rating={Number(review.rating)}
-        selectedStar={(rating) => handelChangeRating(rating)}
-        fullStarColor='purple'
-      />
-
-        {/* <TextInput
-            value={review.rating}
-            onChangeText={(name) => handelChangeRating(name)}
-            name="rating"
-            placeholder="Rating*"
-            style={styles.TextInput}
-          ></TextInput> */}
-          <TextInput
+        <View style={{width: wp('90%'), height: hp('40%'), padding: wp('5%')}}>
+        <TextInput
             value={review.description}
             onChangeText={(name) => handelChangeDescription(name)}
             name="description"
             placeholder="Description*"
             style={styles.TextInputt}
-            size='32'
           ></TextInput>
-
-          {/* <StarRating
-            disabled={false}
-            emptyStar={'ios-star-outline'}
-            fullStar={'ios-star'}
-            halfStar={'ios-star-half'}
-            iconSet={'Ionicons'}
-            maxStars={5}
-            rating={4}
-            fullStarColor={'#7952B3'}
-          ></StarRating>
-          <Text style={{ alignSelf: 'center', fontSize: 18, fontWeight: '500' }}>Rating: 4/5</Text> */}
-        </View>    
-   
-
-        {/* <View >
-        
-          MERCADOPAGO
- 
-          <View style={{ height: 35, marginTop: 3, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 20, paddingRight: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: '500' }}>Id del Viaje: </Text>
-            <Text style={{ fontSize: 17, fontWeight: '300' }}>{data.travel.id}</Text>
-          </View>
-
-        </View> */}
-        <View  >
-
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-            <TouchableOpacity onPress={handleSubmit} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 13, height: '140%', width: '40%', backgroundColor: 'orange', borderRadius: 10 }}>
-
+        </View>
+        <View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+            }}
+          >
+            <TouchableOpacity
+              onPress={handleSubmit}
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                height: hp('7%'),
+                width: wp("88%"),
+                backgroundColor: "orange",
+                borderRadius: 10,
+              }}
+            >
               <Text style={styles.aceptar}>Enviar </Text>
-
             </TouchableOpacity>
             {/* <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 13, height: '140%', width: '40%', backgroundColor: 'orange', borderRadius: 10 }}
             onPress={() => navigation.navigate('ProfileUserScreen')}
@@ -176,34 +162,33 @@ const StartUser = (props) => {
               <Text style={styles.rechazar}>Rechazar</Text>
 
             </TouchableOpacity> */}
-
           </View>
         </View>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 export default StartUser;
 
 const styles = StyleSheet.create({
   botones: {
-    backgroundColor: 'black',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: "black",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   aceptar: {
-    alignSelf: 'center',
-    color: 'white',
+    alignSelf: "center",
+    color: "white",
     fontSize: 22,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   rechazar: {
-    alignSelf: 'center',
-    color: 'white',
+    alignSelf: "center",
+    color: "white",
     fontSize: 22,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   brandView: {
     flex: 1,
@@ -231,23 +216,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: -10,
   },
-  TextInput: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: "black",
-    height: 52,
-    borderRadius: 10,
-    paddingLeft: 10,
-    marginTop: 20,
-    color: "black",
-  },
   TextInputt: {
-    alignItems:'flex-end',
+    alignItems: "flex-end",
     width: "110%",
-    height:"40%",
-    borderWidth: 1,
+    height: "40%",
+    borderWidth: 1.5,
     borderColor: "black",
-    // height: 52,
     borderRadius: 10,
     paddingLeft: 10,
     marginTop: 20,

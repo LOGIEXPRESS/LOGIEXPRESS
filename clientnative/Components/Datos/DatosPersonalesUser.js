@@ -47,7 +47,7 @@ const DatosPersonalesCarrier = (props) => {
             marginLeft:wp('5%'),
           }}
         >
-          <View style={{ marginTop:wp ('5%') }}>
+          <View style={{ marginTop:wp ('3.90%') }}>
           <Image
               source={{
                 uri:
