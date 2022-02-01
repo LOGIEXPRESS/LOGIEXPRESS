@@ -15,6 +15,7 @@ const uuidv4_1 = require("uuidv4");
 const Travel_1 = require("../models/Travel");
 const User_1 = require("../models/User");
 const User_Reg_1 = require("../models/User_Reg");
+const Carrier_1 = require("../models/Carrier");
 const ServiceAlert_1 = require("../models/ServiceAlert");
 const router = (0, express_1.Router)();
 router.get('/allan', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,6 +39,45 @@ function getDistanciaMetros(origen, destino) {
     var d = R * c * 1000;
     return d / 1000;
 }
+router.get('/actualTravel', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.query;
+    if (id === '') {
+        return res.send('El id no puede estar vacio');
+    }
+    let carrier = yield Carrier_1.Carrier.findAll({
+        where: {
+            idUserReg: id
+        }
+    });
+    if (!carrier.length) {
+        let user = yield User_1.User.findAll({
+            where: {
+                idUserReg: id
+            }
+        });
+        let travel = yield Travel_1.Travel.findAll({ where: {
+                usaerId: user[0].id,
+                finishedTravel: { [Op.eq]: null }
+            } });
+        if (!travel.length) {
+            return res.send('Carrier not travels');
+        }
+        else
+            res.send(travel);
+    }
+    else {
+        let travel = yield Travel_1.Travel.findAll({ where: {
+                carrierId: carrier[0].id,
+                finishedTravel: { [Op.eq]: null }
+            } });
+        return res.send(travel);
+        if (!travel.length) {
+            return res.send('Carrier not travels');
+        }
+        else
+            res.send(travel);
+    }
+}));
 router.post('/calculatePrice', (req, res) => {
     //226.49013972673578
     //price 45298,0279
@@ -57,7 +97,7 @@ router.post('/calculatePrice', (req, res) => {
     }
 });
 router.post('/requestTravel', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, orig, destination, weight, price, description } = req.body;
+    const { id, orig, destination, weight, price, description, finishedTravel } = req.body;
     try {
         let TravelId = (0, uuidv4_1.uuid)();
         var newViaje = {
@@ -67,7 +107,8 @@ router.post('/requestTravel', (req, res, next) => __awaiter(void 0, void 0, void
             weight,
             price,
             description,
-            userId: id
+            userId: id,
+            finishedTravel,
         };
         let traveles = yield Travel_1.Travel.create(newViaje);
         /* let vehicles = await Vehicle.findAll({
@@ -89,12 +130,14 @@ router.post('/requestTravel', (req, res, next) => __awaiter(void 0, void 0, void
         next(err);
     }
 }));
+// usuario -> userId -> Travel -> id del viaje -> sin viajes 
 router.post('/oneTravel', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.body;
     let getTravel = yield Travel_1.Travel.findAll({ where: { id: id } });
-    let varUser = yield User_1.User.findAll({ where: { id: getTravel[0].userId } });
-    let varUserReg = yield User_Reg_1.User_Reg.findOne({ where: { id: varUser[0].idUserReg } });
-    const travelFullData = { travel: getTravel[0], user: varUser[0], userReg: varUserReg };
+    let varUser = yield User_1.User.findAll({ where: { id: getTravel[0].userId }, include: [{ model: User_Reg_1.User_Reg }] });
+    /*  let varUserReg = await User_Reg.findOne({ where: { id: varUser[0].idUserReg } }); */
+    let varCarrier = yield Carrier_1.Carrier.findAll({ where: { id: getTravel[0].carrierId }, include: [{ model: User_Reg_1.User_Reg }] });
+    const travelFullData = { travel: getTravel[0], user: varUser[0], carrier: varCarrier[0] };
     if (getTravel.length === 0) {
         return res.send('Travel not found');
     }
@@ -107,7 +150,8 @@ router.get('/Travel', (req, res, next) => __awaiter(void 0, void 0, void 0, func
     try {
         //Importante en el modelo de travel hay un error en declaración de la relacion con user User_Reg
         //hay que corregir que es de tipo string 
-        let travel = yield Travel_1.Travel.findAll();
+        /* let travel = await Travel.findAll() */
+        const travel = yield Travel_1.Travel.findAll({ where: { carrierId: { [Op.eq]: null } } });
         // res.send(travel);
         if (travel.length > 0) {
             let tam = travel.length;
@@ -168,5 +212,52 @@ router.put('/acceptTravel', (req, res, next) => __awaiter(void 0, void 0, void 0
     }
     else
         res.send('id travel incorrecto');
+}));
+router.get('/userTravel/:idRole', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { idRole } = req.params;
+    console.log("ESTO ES REQUEST PARAM", req.params);
+    try {
+        let userTravel = yield Travel_1.Travel.findAll({
+            where: {
+                [Op.and]: [{ userId: idRole }, { finishedTravel: null }],
+            }
+        });
+        if (!userTravel.length) {
+            return res.send('user sin travel');
+        }
+        res.json({ menssage: 'user travel', payload: userTravel });
+    }
+    catch (e) {
+        next(e);
+    }
+}));
+router.get('/TravelOn/:idRole', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { idRole } = req.params;
+    console.log("ESTO ES REQUEST PARAM", req.params);
+    try {
+        let userTravel = yield Travel_1.Travel.findAll({
+            where: {
+                [Op.and]: [{ userId: idRole }, { finishedTravel: 'process' }],
+            }
+        });
+        console.log("ESTE ES EL VIAJE ACTUAL", userTravel);
+        if (!userTravel.length) {
+            return res.send('user sin travel');
+        }
+        res.json({ menssage: 'user travel', payload: userTravel });
+    }
+    catch (e) {
+        next(e);
+    }
+}));
+router.post('/confirmTravel', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, id } = req.body;
+    try {
+        let confirm = yield Travel_1.Travel.update({ finishedTravel: 'process' }, { where: { id: id, userId: { [Op.eq]: userId } } });
+        console.log("ESTO DEVUELVE CONFIRM TRAVEL,", confirm);
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 exports.default = router;

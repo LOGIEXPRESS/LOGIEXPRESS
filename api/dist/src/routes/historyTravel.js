@@ -13,6 +13,7 @@ const express_1 = require("express");
 const Carrier_1 = require("../models/Carrier");
 const Travel_1 = require("../models/Travel");
 const User_1 = require("../models/User");
+const sequelize_1 = require("sequelize");
 const router = (0, express_1.Router)();
 router.get('/historyTravelUser/:idUserReg', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let { idUserReg } = req.params;
@@ -22,6 +23,12 @@ router.get('/historyTravelUser/:idUserReg', (req, res, next) => __awaiter(void 0
         if (!user) {
             return res.json({ menssage: 'Not found user' });
         }
+        let actualTravel = yield Travel_1.Travel.findAll({
+            where: {
+                finishedTravel: { [sequelize_1.Op.not]: 'finish' },
+                userId: user.id
+            }, include: [{ model: Carrier_1.Carrier }]
+        });
         let travel = yield Travel_1.Travel.findAll({
             where: {
                 userId: user.id,
@@ -31,7 +38,7 @@ router.get('/historyTravelUser/:idUserReg', (req, res, next) => __awaiter(void 0
                 }]
         });
         if (travel.length > 0) {
-            return res.json({ menssage: 'Found Travel', payload: travel });
+            return res.json({ menssage: 'Found Travel', payload: travel, actualTravel });
         }
         else {
             return res.json({ menssage: 'Not found Travels' });
@@ -41,13 +48,19 @@ router.get('/historyTravelUser/:idUserReg', (req, res, next) => __awaiter(void 0
         next(err);
     }
 }));
-router.get(`/historyTravelCarrier/:idUser_Reg`, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/historyTravelCarrier/:idUser_Reg', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let { idUser_Reg } = req.params;
     try {
         let user = yield Carrier_1.Carrier.findOne({ where: { idUserReg: idUser_Reg } }); //carrier 
         if (!user) {
             return res.json({ menssage: 'Not found carrier' });
         }
+        let actualTravel = yield Travel_1.Travel.findAll({
+            where: {
+                finishedTravel: { [sequelize_1.Op.not]: 'finish' },
+                carrierId: user.id
+            }, include: [{ model: Carrier_1.Carrier }]
+        });
         let travel = yield Travel_1.Travel.findAll({
             where: {
                 carrierId: user.id //el id del carrier 
@@ -57,7 +70,7 @@ router.get(`/historyTravelCarrier/:idUser_Reg`, (req, res, next) => __awaiter(vo
                 }]
         });
         if (travel.length > 0) {
-            res.json({ menssage: 'Found Travel', payload: travel });
+            res.json({ menssage: 'Found Travel', payload: travel, actualTravel });
         }
         else {
             return res.json({ menssage: 'Not found Travels' });

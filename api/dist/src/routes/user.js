@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const uuidv4_1 = require("uuidv4");
-const passport_1 = __importDefault(require("passport"));
 const User_Reg_1 = require("../models/User_Reg");
 const User_1 = require("../models/User");
 const Carrier_1 = require("../models/Carrier");
@@ -22,12 +21,14 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config/config"));
 const bcrypt = require("bcryptjs");
 const router = (0, express_1.Router)();
-router.get('/user', passport_1.default.authenticate("jwt", { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/user/:user_Reg', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { user_Reg } = req.params;
+    console.log("ESTO ESTA ENTRANDO", req.params);
     try {
-        let user = yield User_Reg_1.User_Reg.findAll();
-        console.log("AQUI", req.user);
-        if (user.length > 0) {
-            return res.send(user);
+        let objCarrier = yield Carrier_1.Carrier.findOne({ where: { idUserReg: user_Reg }, include: [{ model: User_Reg_1.User_Reg }] });
+        console.log("AQUI", user_Reg);
+        if (objCarrier) {
+            return res.send(objCarrier);
         }
         res.send('data not found');
     }
@@ -55,7 +56,7 @@ router.post('/verifytoken', (req, res, next) => __awaiter(void 0, void 0, void 0
                 idRole: objUser ? objUser.id : objCarrier.id,
                 mensaje: true
             };
-            console.log("PAYLOAD en verifytoken", payload);
+            // console.log("PAYLOAD en verifytoken", payload);
             return res.json({ payload, mensaje: 'the access token is valid' });
         }
     }

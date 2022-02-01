@@ -99,12 +99,22 @@ router.get('/profile', (req, res) => __awaiter(void 0, void 0, void 0, function*
     return userData ? res.json(userData) : res.status(404).send("User Not Found");
 }));
 router.post('/updateUser', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, name, lastName, phone, photo, zone, account } = req.body;
-    let userUpdate;
-    let userDataUpdate;
     try {
+        const { id, name, lastName, phone, photo, zone, account } = req.body;
+        let userUpdate;
+        let userDataUpdate;
         if (name || lastName || phone) {
-            userUpdate = yield User_Reg_1.User_Reg.update({ name: name, lastName: lastName, phone: phone }, {
+            let upDateThis = {};
+            if (name) {
+                upDateThis.name = name;
+            }
+            if (lastName) {
+                upDateThis.lastName = lastName;
+            }
+            if (phone) {
+                upDateThis.phone = phone;
+            }
+            userUpdate = yield User_Reg_1.User_Reg.update(upDateThis /*{name: name, lastName: lastName, phone: phone}*/, {
                 where: {
                     id
                 },
@@ -112,7 +122,17 @@ router.post('/updateUser', (req, res, next) => __awaiter(void 0, void 0, void 0,
             });
         }
         if (photo || zone || account) {
-            userDataUpdate = yield User_1.User.update({ photo: photo, zone: zone, account: account }, {
+            let upDateThis = {};
+            if (photo) {
+                upDateThis.photo = photo;
+            }
+            if (zone) {
+                upDateThis.zone = zone;
+            }
+            if (account) {
+                upDateThis.account = account;
+            }
+            userDataUpdate = yield User_1.User.update(upDateThis /*{photo: photo, zone: zone, account: account}*/, {
                 where: {
                     idUserReg: id
                 },
@@ -123,11 +143,11 @@ router.post('/updateUser', (req, res, next) => __awaiter(void 0, void 0, void 0,
             res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "userReg": userUpdate[1][0], "user": userDataUpdate[1][0] });
         }
         else if (userUpdate) {
-            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", /* userUpdate[1][0]*/ }); //Comente userUpdate por que daba error
+            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "userReg": userUpdate[1][0] });
             // console.log(userUpdate[1])
         }
         else if (userDataUpdate) {
-            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", /* userUpdate[1][0]*/ });
+            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "user": userDataUpdate[1][0] });
         }
         else {
             res.status(404).json({ msg: 'No se encontro usuario registrado' });
@@ -140,19 +160,45 @@ router.post('/updateUser', (req, res, next) => __awaiter(void 0, void 0, void 0,
 }));
 router.post('/editCarrier', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id, name, lastName, phone, documentID, license, location, Cuenta } = req.body;
+        const { id, name, lastName, phone, documentID, license, location, Cuenta, photo } = req.body;
         let carrier;
         let carrierData;
         if (name || lastName || phone) {
-            carrier = yield User_Reg_1.User_Reg.update({ name: name, lastName: lastName, phone: phone }, {
+            let upDateThis = {};
+            if (name) {
+                upDateThis.name = name;
+            }
+            if (lastName) {
+                upDateThis.lastName = lastName;
+            }
+            if (phone) {
+                upDateThis.phone = phone;
+            }
+            carrier = yield User_Reg_1.User_Reg.update(upDateThis /*{name: name, lastName: lastName, phone: phone}*/, {
                 where: {
                     id,
                 },
                 returning: true,
             });
         }
-        if (documentID || license || location || Cuenta) {
-            carrierData = yield Carrier_1.Carrier.update({ documentID: documentID, license: license, location: location, Cuenta: Cuenta }, {
+        if (documentID || license || location || Cuenta || photo) {
+            let upDateThis = {};
+            if (documentID) {
+                upDateThis.documentID = documentID;
+            }
+            if (license) {
+                upDateThis.license = license;
+            }
+            if (location) {
+                upDateThis.location = location;
+            }
+            if (Cuenta) {
+                upDateThis.Cuenta = Cuenta;
+            }
+            if (photo) {
+                upDateThis.photo = photo;
+            }
+            carrierData = yield Carrier_1.Carrier.update(upDateThis /*{documentID: documentID, license: license, location: location, Cuenta: Cuenta}*/, {
                 where: {
                     idUserReg: id
                 },
@@ -163,28 +209,45 @@ router.post('/editCarrier', (req, res, next) => __awaiter(void 0, void 0, void 0
             res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "userReg": carrier[1][0], "carrier": carrierData[1][0] });
         }
         else if (carrier) {
-            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", /*carrier[1][0]*/ });
+            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "userReg": carrier[1][0] });
         }
         else if (carrierData) {
-            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", /*carrier[1][0]*/ });
+            res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "carrier": carrierData[1][0] });
         }
         else {
             res.status(404).json({ msg: 'No se encontro usuario registrado' });
         }
     }
     catch (err) {
-        res.status(404).json({ msg: "rompio" });
+        res.status(404).json({ msg: "bum" });
         console.log(err);
     }
 }));
 router.post('/updateVehicle', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { idRole, brand, patent, model, color, capacity } = req.body;
+        const { id, brand, patent, model, color, capacity } = req.body;
+        const carrierId = yield Carrier_1.Carrier.findOne({ where: { idUserReg: id } });
         let vehicle;
         if (brand || patent || model || color || capacity) {
-            vehicle = yield Vehicle_1.Vehicle.update({ brand: brand, patent: patent, model: model, color: color, capacity: capacity }, {
+            let upDateThis = {};
+            if (brand) {
+                upDateThis.brand = brand;
+            }
+            if (patent) {
+                upDateThis.patent = patent;
+            }
+            if (model) {
+                upDateThis.model = model;
+            }
+            if (color) {
+                upDateThis.color = color;
+            }
+            if (capacity) {
+                upDateThis.capacity = capacity;
+            }
+            vehicle = yield Vehicle_1.Vehicle.update(upDateThis /*{brand: brand, patent: patent, model: model, color: color, capacity: capacity}*/, {
                 where: {
-                    CarrierId: idRole
+                    CarrierId: carrierId === null || carrierId === void 0 ? void 0 : carrierId.id
                 },
                 returning: true,
             });
@@ -193,7 +256,7 @@ router.post('/updateVehicle', (req, res, next) => __awaiter(void 0, void 0, void
             res.status(200).json({ "msg": "Tu informacion se actualizo exitosamente", "vehicle": vehicle[1][0] });
         }
         else {
-            res.status(404).json({ msg: 'No se encontro usuario registrado' });
+            res.status(404).json({ "msg": 'No se encontro usuario registrado' });
         }
     }
     catch (err) {

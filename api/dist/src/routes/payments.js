@@ -39,8 +39,9 @@ const stripe = new stripe_1.default(process.env.STRIPE_SECRET_KEY || "sk_test_51
 router.post("/pay", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // const { id } = req.body;
-        console.log(req.body.info.route.params.travel.price);
-        const { eMail, lastName, name, id } = req.body.info.route.params.userReg;
+        /*  console.log(req.body.info.route.params.travel.price) */
+        console.log("ESTO LLEGA A RUTA PAY", req.body.info.route.params);
+        const { eMail, lastName, name, id } = req.body.info.route.params.user.user_Reg;
         // console.log('aca llega el token','token',tokenn);
         // let decoded = jwt.verify(tokenn, config.jwtSecret)
         // let user = await User.findAll({ where: { idUserReg: decoded.id } })
