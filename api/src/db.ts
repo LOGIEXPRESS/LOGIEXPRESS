@@ -21,6 +21,7 @@ new Sequelize({
    host: 'ec2-3-225-41-234.compute-1.amazonaws.com',
    port: 5432,
    username: "euhhnlvlorbgaz",
+   storage: ':memory:',
    password: "b9b70900233f499937ea603bc58f8340bd6aa51cf0b0038889526a2a3845ed67",
    models: [__dirname + '/models'],
    pool: {
